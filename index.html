@@ -400,6 +400,16 @@
     };
   })();
 
+  function unlockSoundOnce(){
+    Sound.unlock();
+    window.removeEventListener("pointerdown",unlockSoundOnce);
+    window.removeEventListener("keydown",unlockSoundOnce);
+    window.removeEventListener("touchstart",unlockSoundOnce);
+  }
+  window.addEventListener("pointerdown",unlockSoundOnce,{passive:true});
+  window.addEventListener("keydown",unlockSoundOnce);
+  window.addEventListener("touchstart",unlockSoundOnce,{passive:true});
+
   /* ---------- number tween ---------- */
   function tween(el,to){
     const id=el.dataset.id; let from=shownScore[id]!==undefined?shownScore[id]:to;
@@ -475,6 +485,7 @@
   /* ---------- scoring ---------- */
   function change(id,delta){
     if(!delta) return; const t=state.teams.find(x=>x.id===id); if(!t) return;
+    Sound.unlock();
     const prevLeader=leaderId();
     t.score+=delta;
     state.history.unshift({time:nowStr(),name:t.name,color:t.color,delta,to:t.score});
