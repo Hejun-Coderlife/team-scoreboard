@@ -318,7 +318,7 @@
           <button class="chip" data-step="300">300</button>
           <button class="chip on" data-step="500">500</button>
           <button class="chip" data-step="1000">1000</button>
-          <input id="customStep" class="chip" type="number" placeholder="自定义" min="100" step="100" title="自定义（≥100）">
+          <input id="customStep" class="chip" type="number" placeholder="自定义" min="1" step="1" title="自定义（≥1）">
         </div>
         <button class="tbtn" id="editBtn"><span class="ic">✎</span>编辑</button>
         <button class="tbtn" id="undoBtn"><span class="ic">↶</span>撤销</button>
@@ -554,10 +554,10 @@
     }).join(""); }
 
   /* ---------- step ---------- */
-  function setStep(v){ v=Math.max(100,parseInt(v,10)||100); state.step=v;
+  function setStep(v){ v=Math.max(1,parseInt(v,10)||1); state.step=v;
     document.querySelectorAll(".chip[data-step]").forEach(c=>c.classList.toggle("on",+c.dataset.step===v)); save(); }
   document.querySelectorAll(".chip[data-step]").forEach(c=>c.addEventListener("click",()=>{ $("#customStep").value=""; $("#customStep").classList.remove("on"); setStep(+c.dataset.step); }));
-  $("#customStep").addEventListener("input",e=>{ const v=parseInt(e.target.value,10); const ok=v>=100; $("#customStep").classList.toggle("on",ok&&e.target.value!==""); if(ok){ document.querySelectorAll(".chip[data-step]").forEach(c=>c.classList.remove("on")); state.step=v; save(); }});
+  $("#customStep").addEventListener("input",e=>{ const v=parseInt(e.target.value,10); const ok=v>=1; $("#customStep").classList.toggle("on",ok&&e.target.value!==""); if(ok){ document.querySelectorAll(".chip[data-step]").forEach(c=>c.classList.remove("on")); state.step=v; save(); }});
 
   /* ---------- tools ---------- */
   $("#editBtn").addEventListener("click",()=>{ editing=!editing; document.body.classList.toggle("editing",editing);
@@ -618,7 +618,7 @@
     if(touched) save(); })();
   titleEl.value=state.title||"战队积分对抗榜"; document.title=titleEl.value;
   subEl.value=state.subtitle||"HYMN BATTLE ARENA"; fitSub();
-  if(!(state.step>=100)) state.step=500;
+  if(!(state.step>=1)) state.step=500;
   setStep(state.step);
   if(![100,200,300,500,1000].includes(state.step)){ document.querySelectorAll(".chip[data-step]").forEach(c=>c.classList.remove("on")); $("#customStep").value=state.step; $("#customStep").classList.add("on"); }
   Sound.set(state.sound!==false); refreshSound();
